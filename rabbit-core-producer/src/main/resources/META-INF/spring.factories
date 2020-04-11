@@ -1,0 +1,4 @@
+# Auto Configure
+# 让Spring自动装配此类
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.itihub.rabbit.producer.autoconfigure.RabbitProducerAutoConfiguration
