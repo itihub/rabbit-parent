@@ -3,7 +3,7 @@
 <mapper namespace="com.itihub.rabbit.producer.mapper.BrokerMessageMapper" >
   <resultMap id="BaseResultMap" type="com.itihub.rabbit.producer.entity.BrokerMessage" >
     <id column="message_id" property="messageId" jdbcType="VARCHAR" />
-    <result column="message" property="message" jdbcType="VARCHAR" typeHandler="com.bfxy.rabbit.common.mybatis.handler.MessageJsonTypeHandler" />
+    <result column="message" property="message" jdbcType="VARCHAR" typeHandler="com.itihub.rabbit.common.mybatis.handler.MessageJsonTypeHandler" />
     <result column="try_count" property="tryCount" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="next_retry" property="nextRetry" jdbcType="TIMESTAMP" />
@@ -27,7 +27,7 @@
     insert into broker_message (message_id, message, try_count, 
       status, next_retry, create_time, 
       update_time)
-    values (#{messageId,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR, typeHandler=com.bfxy.rabbit.common.mybatis.handler.MessageJsonTypeHandler}, #{tryCount,jdbcType=INTEGER}, 
+    values (#{messageId,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR, typeHandler=com.itihub.rabbit.common.mybatis.handler.MessageJsonTypeHandler}, #{tryCount,jdbcType=INTEGER},
       #{status,jdbcType=VARCHAR}, #{nextRetry,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
@@ -61,7 +61,7 @@
         #{messageId,jdbcType=VARCHAR},
       </if>
       <if test="message != null" >
-        #{message,jdbcType=VARCHAR, typeHandler=com.bfxy.rabbit.common.mybatis.handler.MessageJsonTypeHandler},
+        #{message,jdbcType=VARCHAR, typeHandler=com.itihub.rabbit.common.mybatis.handler.MessageJsonTypeHandler},
       </if>
       <if test="tryCount != null" >
         #{tryCount,jdbcType=INTEGER},
@@ -84,7 +84,7 @@
     update broker_message
     <set >
       <if test="message != null" >
-        message = #{message,jdbcType=VARCHAR, typeHandler=com.bfxy.rabbit.common.mybatis.handler.MessageJsonTypeHandler},
+        message = #{message,jdbcType=VARCHAR, typeHandler=com.itihub.rabbit.common.mybatis.handler.MessageJsonTypeHandler},
       </if>
       <if test="tryCount != null" >
         try_count = #{tryCount,jdbcType=INTEGER},
@@ -106,7 +106,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.itihub.rabbit.producer.entity.BrokerMessage" >
     update broker_message
-    set message = #{message,jdbcType=VARCHAR, typeHandler=com.bfxy.rabbit.common.mybatis.handler.MessageJsonTypeHandler},
+    set message = #{message,jdbcType=VARCHAR, typeHandler=com.itihub.rabbit.common.mybatis.handler.MessageJsonTypeHandler},
       try_count = #{tryCount,jdbcType=INTEGER},
       status = #{status,jdbcType=VARCHAR},
       next_retry = #{nextRetry,jdbcType=TIMESTAMP},
