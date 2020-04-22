@@ -55,5 +55,5 @@ public @interface ElasticJobConfig {
     @AliasFor(
             annotation = ListenerConfiguration.class, attribute = "listener"
     )
-    ListenerConfiguration listenerConfig();
+    ListenerConfiguration listenerConfig() default @ListenerConfiguration;
 }

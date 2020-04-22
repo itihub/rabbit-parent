@@ -19,7 +19,9 @@ public @interface ListenerConfiguration {
      * 前置后置任务分布式监听实现类，需继承AbstractDistributeOnceElasticJobListener类
      */
 //    Class<? extends AbstractDistributeOnceElasticJobListener> clazz() default ;
-    Class clazz();
+//    Class clazz();
+
+    String clazz() default "";
 
     String distributedListener() default "";
 

@@ -194,7 +194,7 @@ public class ElasticJobConfigParser implements ApplicationListener<ApplicationRe
 
     private List<BeanDefinition> getTargetElasticJobListeners(com.itihub.rabbit.task.annotaion.ListenerConfiguration listenerConfiguration) {
         List<BeanDefinition> result = new ManagedList<BeanDefinition>(2);
-        Class listeners = listenerConfiguration.clazz();
+        String listeners = listenerConfiguration.clazz();
         if (null != listeners) {
             BeanDefinitionBuilder factory = BeanDefinitionBuilder.rootBeanDefinition(listeners);
             factory.setScope("prototype");
