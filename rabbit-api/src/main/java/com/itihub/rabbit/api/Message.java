@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 自定义消息对消息
+ * 自定义消息对象
  */
 @Data
 public class Message implements Serializable {

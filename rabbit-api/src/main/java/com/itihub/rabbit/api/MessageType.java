@@ -1,5 +1,8 @@
 package com.itihub.rabbit.api;
 
+/**
+ * 消息可靠性投递级别
+ */
 public final class MessageType {
 
     /**

@@ -5,7 +5,7 @@ import com.itihub.rabbit.exception.MessageRunTimeException;
 import java.util.List;
 
 /**
- * $MessageProducer 消息提供者开放接口
+ * $MessageProducer 可靠性投递消息提供者开放接口
  */
 public interface MessageProducer {
 

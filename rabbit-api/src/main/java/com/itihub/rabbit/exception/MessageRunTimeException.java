@@ -1,5 +1,9 @@
 package com.itihub.rabbit.exception;
 
+/**
+ * Message运行时异常
+ * @author Jizhe
+ */
 public class MessageRunTimeException extends RuntimeException {
 
     public MessageRunTimeException() {

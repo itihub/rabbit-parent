@@ -7,12 +7,14 @@ import org.springframework.amqp.support.converter.MessageConversionException;
 import org.springframework.amqp.support.converter.MessageConverter;
 
 /**
- * 装饰者模式或代理模式
+ * 基于GenericMessageConverter的代理
+ * 使用了装饰者模式或代理模式
  */
 public class RabbitMessageConverter implements MessageConverter {
 
     private GenericMessageConverter delegate;
 
+    /** 默认过期时间 **/
     private final String defaultExpire = String.valueOf(24 * 60 * 60 * 1000);
 
     public RabbitMessageConverter(GenericMessageConverter genericMessageConverter) {

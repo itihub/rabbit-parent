@@ -1,5 +1,9 @@
 package com.itihub.rabbit.exception;
 
+/**
+ * Message异常
+ * @author Jizhe
+ */
 public class MessageException extends Exception {
 
     public MessageException(){

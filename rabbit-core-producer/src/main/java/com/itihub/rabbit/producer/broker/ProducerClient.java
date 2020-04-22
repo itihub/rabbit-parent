@@ -25,6 +25,8 @@ public class ProducerClient implements MessageProducer {
     @Override
     public void send(Message message) throws MessageRunTimeException {
         Preconditions.checkNotNull(message.getTopic());
+
+        // 根据消息的可靠性级别进行投递消息
         String messageType = message.getMessageType();
         switch (messageType) {
             case MessageType.RAPID:

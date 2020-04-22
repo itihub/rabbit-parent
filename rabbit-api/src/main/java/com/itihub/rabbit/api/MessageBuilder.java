@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * 建造者模式
+ * Message建造者模式
  */
 public class MessageBuilder {
 

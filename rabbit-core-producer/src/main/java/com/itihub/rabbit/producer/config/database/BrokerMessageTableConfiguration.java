@@ -35,7 +35,7 @@ public class BrokerMessageTableConfiguration {
     }
 
     /**
-     * 数据填充器
+     * 数据填充器 用来执行sql表结构
      * @return
      */
     private DatabasePopulator databasePopulator(){

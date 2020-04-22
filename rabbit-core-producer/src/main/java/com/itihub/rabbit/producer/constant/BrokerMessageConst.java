@@ -1,5 +1,8 @@
 package com.itihub.rabbit.producer.constant;
 
+/**
+ * $BrokerMessageConst 常量
+ */
 public interface BrokerMessageConst {
 
     /**

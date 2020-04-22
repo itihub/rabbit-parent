@@ -4,6 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.*;
 
+/**
+ * 异步消息队列
+ */
 @Slf4j
 public class AsyncBaseQueue {
 
@@ -11,6 +14,9 @@ public class AsyncBaseQueue {
 
     private static final int QUEUE_SIZE = 10000;
 
+    /**
+     * 构建异步消息处理的线程池
+     */
     private static ExecutorService senderAsync = new ThreadPoolExecutor(
             THREAD_SIZE,
             THREAD_SIZE,
