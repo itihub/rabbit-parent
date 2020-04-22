@@ -14,6 +14,7 @@
         <module>rabbit-task</module>
         <module>rabbit-task-example</module>
         <module>es-job</module>
+        <module>rabbit-demo</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -103,6 +104,11 @@
             <dependency>
                 <groupId>com.itihub.base.rabbit</groupId>
                 <artifactId>rabbit-task</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.itihub.base.rabbit</groupId>
+                <artifactId>rabbit-core-producer</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
         </dependencies>
