@@ -14,8 +14,7 @@ import com.dangdang.ddframe.job.executor.handler.JobProperties;
 import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
-import com.itihub.rabbit.task.annotaion.ElasticJonConfig;
-import com.dangdang.ddframe.job.api.simple.SimpleJob;
+import com.itihub.rabbit.task.annotaion.ElasticJobConfig;
 import com.itihub.rabbit.task.annotaion.ListenerConfiguration;
 import com.itihub.rabbit.task.autoconfigure.ElasticJobZookeeperProperties;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -52,7 +51,7 @@ public class ElasticJobConfigParser implements ApplicationListener<ApplicationRe
 
         // 获取 带@ElasticJonConfig 注解的beans
         try {
-            Map<String, Object> beansWithAnnotation = applicationContext.getBeansWithAnnotation(ElasticJonConfig.class);
+            Map<String, Object> beansWithAnnotation = applicationContext.getBeansWithAnnotation(ElasticJobConfig.class);
             for (Iterator<?> iterator = beansWithAnnotation.values().iterator(); iterator.hasNext(); ) {
                 Object elasticJobConfBean = iterator.next();
                 Class<?> clazz = elasticJobConfBean.getClass();
@@ -70,7 +69,7 @@ public class ElasticJobConfigParser implements ApplicationListener<ApplicationRe
                     }
                 }
 
-                ElasticJonConfig annotation = clazz.getAnnotation(ElasticJonConfig.class);
+                ElasticJobConfig annotation = clazz.getAnnotation(ElasticJobConfig.class);
 
                 String scriptCommandLine = annotation.scriptCommandLine();
                 boolean streamingProcess = annotation.streamingProcess();

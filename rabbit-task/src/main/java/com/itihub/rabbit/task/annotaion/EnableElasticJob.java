@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Import;
 import java.lang.annotation.*;
 
 /**
+ * EnableElasticJob 装配ElasticJob注解
  * @author Jizhe
  */
 @Target(ElementType.TYPE)

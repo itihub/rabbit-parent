@@ -13,6 +13,7 @@
         <module>rabbit-core-producer</module>
         <module>rabbit-task</module>
         <module>rabbit-example</module>
+        <module>es-job</module>
     </modules>
 
     <packaging>pom</packaging>
