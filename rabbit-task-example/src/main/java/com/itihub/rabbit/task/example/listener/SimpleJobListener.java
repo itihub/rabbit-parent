@@ -1,4 +1,4 @@
-package com.itihub.rabbit.example.listener;
+package com.itihub.rabbit.task.example.listener;
 
 import com.alibaba.fastjson.JSON;
 import com.dangdang.ddframe.job.executor.ShardingContexts;

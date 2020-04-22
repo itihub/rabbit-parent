@@ -12,7 +12,7 @@
         <module>rabbit-api</module>
         <module>rabbit-core-producer</module>
         <module>rabbit-task</module>
-        <module>rabbit-example</module>
+        <module>rabbit-task-example</module>
         <module>es-job</module>
     </modules>
 

@@ -1,8 +1,7 @@
-package com.itihub.rabbit.example.job;
+package com.itihub.rabbit.task.example.job;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
-import com.itihub.rabbit.example.listener.SimpleJobListener;
 import com.itihub.rabbit.task.annotaion.ElasticJobConfig;
 import com.itihub.rabbit.task.annotaion.JobCoreConfiguration;
 import com.itihub.rabbit.task.annotaion.ListenerConfiguration;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Component;
                 , jobParameter = "source1=public,source2=private", failover = true
                 , description = "test job"),
         liteJobConfig = @LiteJobConfiguration(monitorPort = 8889),
-        listenerConfig = @ListenerConfiguration(clazz = SimpleJobListener.class)
+        listenerConfig = @ListenerConfiguration(clazz = "com.itihub.rabbit.task.example.listener.SimpleJobListener.class")
 )
 @Slf4j
 public class TestSimpleJob implements SimpleJob {
