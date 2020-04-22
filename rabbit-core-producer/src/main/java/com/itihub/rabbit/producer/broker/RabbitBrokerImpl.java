@@ -42,17 +42,20 @@ public class RabbitBrokerImpl implements RabbitBroker {
     public void reliantSend(Message message) {
         message.setMessageType(MessageType.RELIANT);
 
-        // 1. 待发送的消息落库记录
-        Date now = new Date();
-        BrokerMessage brokerMessage = new BrokerMessage();
-        brokerMessage.setMessageId(message.getMessageId());
-        brokerMessage.setStatus(BrokerMessageStatus.SENDING.getCode());
-        // try_count 在第一次发送时不需要被赋值 默认0;
-        brokerMessage.setNextRetry(DateUtils.addMinutes(now, BrokerMessageConst.TIMEOUT));
-        brokerMessage.setCreateTime(now);
-        brokerMessage.setUpdateTime(now);
-        brokerMessage.setMessage(message);
-        messageStoreService.insert(brokerMessage);
+        BrokerMessage brokerMessage = messageStoreService.selectByMessageId(message.getMessageId());
+        if (null == brokerMessage){
+            // 1. 待发送的消息落库记录
+            Date now = new Date();
+            brokerMessage = new BrokerMessage();
+            brokerMessage.setMessageId(message.getMessageId());
+            brokerMessage.setStatus(BrokerMessageStatus.SENDING.getCode());
+            // try_count 在第一次发送时不需要被赋值 默认0;
+            brokerMessage.setNextRetry(DateUtils.addMinutes(now, BrokerMessageConst.TIMEOUT));
+            brokerMessage.setCreateTime(now);
+            brokerMessage.setUpdateTime(now);
+            brokerMessage.setMessage(message);
+            messageStoreService.insert(brokerMessage);
+        }
 
         // 2. 发送消息到MQ
         sendKernel(message);
@@ -70,9 +73,10 @@ public class RabbitBrokerImpl implements RabbitBroker {
      */
     private void sendKernel(Message message) {
         AsyncBaseQueue.submit((Runnable) ()-> {
-            CorrelationData correlationData = new CorrelationData(String.format("%s#%s"
+            CorrelationData correlationData = new CorrelationData(String.format("%s#%s#%s"
                     , message.getMessageId()
-                    , System.currentTimeMillis()));
+                    , System.currentTimeMillis()
+                    , message.getMessageType()));
             String topic = message.getTopic();
             String routingKey = message.getRoutingKey();
             RabbitTemplate rabbitTemplate = rabbitTemplateContainer.getTemplate(message);
