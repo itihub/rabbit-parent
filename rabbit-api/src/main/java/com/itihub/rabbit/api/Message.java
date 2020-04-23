@@ -26,7 +26,7 @@ public class Message implements Serializable {
     /** 消息的附加属性 **/
     private Map<String, Object> attributes = new HashMap<>();
 
-    /** 延迟消息的参数配置 **/
+    /** 延迟消息的参数配置 PS:需要RabbitMQ安装延迟插件 **/
     private int delayMills;
 
     /** 消息类型 默认confirm消息 **/

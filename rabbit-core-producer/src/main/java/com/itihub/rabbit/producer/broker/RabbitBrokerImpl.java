@@ -10,9 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * $RabbitBrokerImpl 实现发送不同类型的消息
@@ -20,11 +20,14 @@ import java.util.Date;
 @Slf4j
 public class RabbitBrokerImpl implements RabbitBroker {
 
-    @Autowired
     private RabbitTemplateContainer rabbitTemplateContainer;
 
-    @Autowired
     private MessageStoreService messageStoreService;
+
+    public RabbitBrokerImpl(RabbitTemplateContainer rabbitTemplateContainer, MessageStoreService messageStoreService) {
+        this.rabbitTemplateContainer = rabbitTemplateContainer;
+        this.messageStoreService = messageStoreService;
+    }
 
     @Override
     public void rapidSend(Message message) {
@@ -63,7 +66,21 @@ public class RabbitBrokerImpl implements RabbitBroker {
 
     @Override
     public void sendMessages() {
+        List<Message> messageList = MessageHolder.clear();
+        messageList.forEach(message -> {
+            MessageHolderAsyncQueue.submit(() ->{
+                CorrelationData correlationData = new CorrelationData(String.format("%s#%s#%s"
+                        , message.getMessageId()
+                        , System.currentTimeMillis()
+                        , message.getMessageType()));
+                String topic = message.getTopic();
+                String routingKey = message.getRoutingKey();
+                RabbitTemplate rabbitTemplate = rabbitTemplateContainer.getTemplate(message);
+                rabbitTemplate.convertAndSend(topic, routingKey, message, correlationData);
+                log.info("#RabbitBrokerImpl.sendMessages# send to rabbitmq messageId: {}", message.getMessageId());
 
+            });
+        });
     }
 
     /**

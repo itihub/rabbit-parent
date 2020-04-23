@@ -36,24 +36,24 @@ public @interface ElasticJobConfig {
     /**
      * JobCoreConfig 相关配置
      */
-    @AliasFor(
-            annotation = JobCoreConfiguration.class, attribute = "core"
-    )
+//    @AliasFor(
+//            annotation = JobCoreConfiguration.class, attribute = "core"
+//    )
     JobCoreConfiguration coreConfig();
 
     /**
      * LiteJobConfig 相关配置
      */
-    @AliasFor(
-            annotation = LiteJobConfiguration.class, attribute = "lite"
-    )
+//    @AliasFor(
+//            annotation = LiteJobConfiguration.class, attribute = "lite"
+//    )
     LiteJobConfiguration liteJobConfig() default @LiteJobConfiguration;
 
     /**
      * 作业监听配置
      */
-    @AliasFor(
-            annotation = ListenerConfiguration.class, attribute = "listener"
-    )
+//    @AliasFor(
+//            annotation = ListenerConfiguration.class, attribute = "listener"
+//    )
     ListenerConfiguration listenerConfig() default @ListenerConfiguration;
 }

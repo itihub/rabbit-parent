@@ -30,7 +30,7 @@ import java.util.Map;
  *      2.可以根据不同的需求制定化不同的RabbitTemplate。比如每一个topic都有自己的RoutingKey规则
  */
 @Slf4j
-@Component
+//@Component
 public class RabbitTemplateContainer implements RabbitTemplate.ConfirmCallback {
 
     /**
@@ -48,8 +48,11 @@ public class RabbitTemplateContainer implements RabbitTemplate.ConfirmCallback {
     @Autowired
     private ConnectionFactory connectionFactory;
 
-    @Autowired
     private MessageStoreService messageStoreService;
+
+    public RabbitTemplateContainer(MessageStoreService messageStoreService) {
+        this.messageStoreService = messageStoreService;
+    }
 
     public RabbitTemplate getTemplate(Message message) throws MessageRunTimeException {
         Preconditions.checkNotNull(message.getTopic());

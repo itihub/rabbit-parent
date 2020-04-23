@@ -9,11 +9,13 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 
-@Service
 public class MessageStoreService {
 
-    @Autowired
     private BrokerMessageMapper brokerMessageMapper;
+
+    public MessageStoreService(BrokerMessageMapper brokerMessageMapper) {
+        this.brokerMessageMapper = brokerMessageMapper;
+    }
 
     public int insert(BrokerMessage brokerMessage){
         return brokerMessageMapper.insert(brokerMessage);

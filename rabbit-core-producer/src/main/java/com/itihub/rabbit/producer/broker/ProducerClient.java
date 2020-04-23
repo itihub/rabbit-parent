@@ -16,8 +16,11 @@ public class ProducerClient implements MessageProducer {
 
     private RabbitBroker rabbitBroker;
 
-    @Override
+    public ProducerClient(RabbitBroker rabbitBroker) {
+        this.rabbitBroker = rabbitBroker;
+    }
 
+    @Override
     public void send(Message message, SendCallback sendCallback) {
 
     }
@@ -43,8 +46,18 @@ public class ProducerClient implements MessageProducer {
         }
     }
 
+    /**
+     * 批量消息发送
+     *      批量发送的消息定义为迅速消息
+     * @param messages
+     * @throws MessageRunTimeException
+     */
     @Override
     public void send(List<Message> messages) throws MessageRunTimeException {
-
+        messages.forEach(message -> {
+            message.setMessageType(MessageType.RAPID);
+            MessageHolder.add(message);
+        });
+        rabbitBroker.sendMessages();
     }
 }

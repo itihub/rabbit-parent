@@ -23,10 +23,15 @@ public class RabbitMessageConverter implements MessageConverter {
     }
 
     @Override
-    public Message toMessage(Object o, MessageProperties messageProperties) throws MessageConversionException {
+    public Message toMessage(Object object, MessageProperties messageProperties) throws MessageConversionException {
         // 代理模式 之前加入自己业务逻辑
-        messageProperties.setExpiration(defaultExpire);
-        return this.delegate.toMessage(o, messageProperties);
+
+        // 设置消息过期时间
+//        messageProperties.setExpiration(defaultExpire);
+        com.itihub.rabbit.api.Message message = (com.itihub.rabbit.api.Message) object;
+        messageProperties.setDelay(message.getDelayMills());
+
+        return this.delegate.toMessage(object, messageProperties);
     }
 
     @Override
