@@ -11,6 +11,7 @@ import com.dangdang.ddframe.job.config.script.ScriptJobConfiguration;
 import com.dangdang.ddframe.job.config.simple.SimpleJobConfiguration;
 import com.dangdang.ddframe.job.event.rdb.JobEventRdbConfiguration;
 import com.dangdang.ddframe.job.executor.handler.JobProperties;
+import com.dangdang.ddframe.job.lite.api.listener.ElasticJobListener;
 import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.support.ManagedList;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.util.Iterator;
@@ -92,6 +94,8 @@ public class ElasticJobConfigParser implements ApplicationListener<ApplicationRe
                 } else if (ScriptJob.class.isAssignableFrom(clazz)) {
                     jobTypeConfig = new ScriptJobConfiguration(coreConfig, scriptCommandLine);
                 }
+
+                Assert.notNull(jobTypeConfig, "Unknown ElasticJob type, Please refer to ElasticJob");
 
                 /**
                  * 三级配置
@@ -194,11 +198,13 @@ public class ElasticJobConfigParser implements ApplicationListener<ApplicationRe
 
     private List<BeanDefinition> getTargetElasticJobListeners(com.itihub.rabbit.task.annotaion.ListenerConfiguration listenerConfiguration) {
         List<BeanDefinition> result = new ManagedList<BeanDefinition>(2);
-        String listeners = listenerConfiguration.clazz();
+        Class<? extends ElasticJobListener>[] listeners = listenerConfiguration.clazz();
         if (null != listeners) {
-            BeanDefinitionBuilder factory = BeanDefinitionBuilder.rootBeanDefinition(listeners);
-            factory.setScope("prototype");
-            result.add(factory.getBeanDefinition());
+            for (Class<? extends ElasticJobListener> listener : listeners) {
+                BeanDefinitionBuilder factory = BeanDefinitionBuilder.rootBeanDefinition(listener);
+                factory.setScope("prototype");
+                result.add(factory.getBeanDefinition());
+            }
         }
 
         String distributedListeners = listenerConfiguration.distributedListener();

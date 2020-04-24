@@ -30,7 +30,6 @@ import java.util.Map;
  *      2.可以根据不同的需求制定化不同的RabbitTemplate。比如每一个topic都有自己的RoutingKey规则
  */
 @Slf4j
-//@Component
 public class RabbitTemplateContainer implements RabbitTemplate.ConfirmCallback {
 
     /**

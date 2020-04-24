@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @AutoConfigureAfter(RabbitProducerDataSourceConfiguration.class)
-public class RabbitProducerMybatisMapperScanerConfig {
+public class RabbitProducerMybatisMapperScannerConfig {
 
     @Bean(name="rabbitProducerMapperScannerConfigurer")
     public MapperScannerConfigurer rabbitProducerMapperScannerConfigurer() {

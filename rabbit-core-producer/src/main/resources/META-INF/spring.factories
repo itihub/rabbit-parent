@@ -1,4 +1,8 @@
 # Auto Configure
 # 让Spring自动装配此类
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.itihub.rabbit.producer.autoconfigure.RabbitProducerAutoConfiguration
+com.itihub.rabbit.producer.autoconfigure.RabbitProducerAutoConfiguration, \
+com.itihub.rabbit.producer.config.database.RabbitProducerDataSourceConfiguration, \
+com.itihub.rabbit.producer.config.database.RabbitProduceMyBatisConfiguration, \
+com.itihub.rabbit.producer.config.database.BrokerMessageTableConfiguration, \
+com.itihub.rabbit.producer.config.database.RabbitProducerMybatisMapperScannerConfig

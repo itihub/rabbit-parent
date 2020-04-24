@@ -12,6 +12,8 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+import static org.springframework.core.io.support.ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX;
+
 @Configuration
 @AutoConfigureAfter(value = {RabbitProducerDataSourceConfiguration.class})
 public class RabbitProduceMyBatisConfiguration {
@@ -25,7 +27,8 @@ public class RabbitProduceMyBatisConfiguration {
         bean.setDataSource(rabbitProducerDataSource);
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {
-            bean.setMapperLocations(resolver.getResources("classpath:com/itihub/rabbit/producer/mapping/*.xml"));
+            // 指定 MyBatis 的 XML 配置文件路径
+            bean.setMapperLocations(resolver.getResources(CLASSPATH_ALL_URL_PREFIX + "com/itihub/rabbit/producer/mapping/*.xml"));
             SqlSessionFactory sqlSessionFactory = bean.getObject();
             sqlSessionFactory.getConfiguration().setCacheEnabled(Boolean.TRUE);
             return sqlSessionFactory;
@@ -35,7 +38,7 @@ public class RabbitProduceMyBatisConfiguration {
     }
 
     @Bean(name="rabbitProducerSqlSessionTemplate")
-    public SqlSessionTemplate rabbitProducerSqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
-        return new SqlSessionTemplate(sqlSessionFactory);
+    public SqlSessionTemplate rabbitProducerSqlSessionTemplate(SqlSessionFactory rabbitProducerSqlSessionFactory) {
+        return new SqlSessionTemplate(rabbitProducerSqlSessionFactory);
     }
 }

@@ -22,6 +22,10 @@ import java.sql.SQLException;
 @PropertySource({"classpath:rabbit-producer-message.properties"})
 public class RabbitProducerDataSourceConfiguration {
 
+    public RabbitProducerDataSourceConfiguration() {
+        log.info("Initializing RabbitProducerDataSourceConfiguration");
+    }
+
     /**
      * druid连接池加载
      */
@@ -34,8 +38,8 @@ public class RabbitProducerDataSourceConfiguration {
      * @throws SQLException
      */
     @Bean(name = "rabbitProducerDataSource")
-    @Primary
     @ConfigurationProperties(prefix = "rabbit.producer.druid.jdbc")
+    @Primary
     public DataSource rabbitProducerDataSource() throws SQLException {
         DataSource rabbitProducerDataSource = DataSourceBuilder.create().type(dataSourceType).build();
         log.info("rabbitProducerDataSource: {}", rabbitProducerDataSource);

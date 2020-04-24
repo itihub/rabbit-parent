@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Slf4j
-@Component
 @ElasticJobConfig(
         coreConfig = @JobCoreConfiguration(
             name = "com.itihub.rabbit.producer.task.RetryMessageDataflowJob",
@@ -29,11 +28,14 @@ import java.util.List;
 )
 public class RetryMessageDataflowJob implements DataflowJob<BrokerMessage> {
 
-    @Autowired
     private MessageStoreService messageStoreService;
 
-    @Autowired
     private RabbitBroker rabbitBroker;
+
+    public RetryMessageDataflowJob(MessageStoreService messageStoreService, RabbitBroker rabbitBroker) {
+        this.messageStoreService = messageStoreService;
+        this.rabbitBroker = rabbitBroker;
+    }
 
     private static final int MAX_RETRY_COUNT = 3;
 
