@@ -1,6 +1,7 @@
 import com.itihub.rabbit.api.Message;
 import com.itihub.rabbit.api.MessageBuilder;
 import com.itihub.rabbit.api.MessageType;
+import com.itihub.rabbit.demo.DemoApplication;
 import com.itihub.rabbit.producer.broker.ProducerClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.HashMap;
 import java.util.UUID;
 
-@SpringBootTest
+@SpringBootTest(classes = DemoApplication.class)
 @RunWith(SpringRunner.class)
 public class ApplicationTest {
 
