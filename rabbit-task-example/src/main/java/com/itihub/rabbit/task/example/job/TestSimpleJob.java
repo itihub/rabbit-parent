@@ -6,6 +6,7 @@ import com.itihub.rabbit.task.annotaion.ElasticJobConfig;
 import com.itihub.rabbit.task.annotaion.JobCoreConfiguration;
 import com.itihub.rabbit.task.annotaion.ListenerConfiguration;
 import com.itihub.rabbit.task.annotaion.LiteJobConfiguration;
+import com.itihub.rabbit.task.example.listener.SimpleJobListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Component;
                 , jobParameter = "source1=public,source2=private", failover = true
                 , description = "test job"),
         liteJobConfig = @LiteJobConfiguration(monitorPort = 8889),
-        listenerConfig = @ListenerConfiguration(clazz = "com.itihub.rabbit.task.example.listener.SimpleJobListener.class")
+        listenerConfig = @ListenerConfiguration(clazz = SimpleJobListener.class)
 )
 @Slf4j
 public class TestSimpleJob implements SimpleJob {
