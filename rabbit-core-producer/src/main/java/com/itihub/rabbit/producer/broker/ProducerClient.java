@@ -22,7 +22,7 @@ public class ProducerClient implements MessageProducer {
 
     @Override
     public void send(Message message, SendCallback sendCallback) {
-
+        rabbitBroker.sendCallback(message, sendCallback);
     }
 
     @Override

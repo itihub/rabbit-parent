@@ -6,7 +6,7 @@ import com.itihub.rabbit.api.Message;
 import java.util.List;
 
 /**
- *
+ *  $MessageHolder 用于批量发送消息的消息存储
  */
 public class MessageHolder {
 

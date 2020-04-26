@@ -87,10 +87,10 @@ public class RabbitTemplateContainer implements RabbitTemplate.ConfirmCallback {
      * confirm消息和reliant消息都会让broker去调用confirm
      * @param correlationData
      * @param ack
-     * @param s
+     * @param cause
      */
     @Override
-    public void confirm(CorrelationData correlationData, boolean ack, String s) {
+    public void confirm(CorrelationData correlationData, boolean ack, String cause) {
         // 具体的消息应答
         List<String> strings = splitter.splitToList(correlationData.getId());
         String messageId = strings.get(0);
@@ -101,11 +101,10 @@ public class RabbitTemplateContainer implements RabbitTemplate.ConfirmCallback {
             if (MessageType.RELIANT.endsWith(messageType)){
                 messageStoreService.success(messageId);
             }
-
             // else do nothing
             log.info("send message is ok, confirm messageId: {}, sendTime: {}", messageId, sendTime);
         }else {
-            log.error("send message if Fail, confirm messageId: {}, sendTime: {}", messageId, sendTime);
+            log.error("send message if Fail, confirm messageId: {}, sendTime: {}, cause: {}", messageId, sendTime, cause);
         }
     }
 }

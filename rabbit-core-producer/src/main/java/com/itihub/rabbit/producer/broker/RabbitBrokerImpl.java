@@ -2,6 +2,7 @@ package com.itihub.rabbit.producer.broker;
 
 import com.itihub.rabbit.api.Message;
 import com.itihub.rabbit.api.MessageType;
+import com.itihub.rabbit.api.SendCallback;
 import com.itihub.rabbit.producer.constant.BrokerMessageConst;
 import com.itihub.rabbit.producer.constant.BrokerMessageStatus;
 import com.itihub.rabbit.producer.entity.BrokerMessage;
@@ -13,6 +14,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * $RabbitBrokerImpl 实现发送不同类型的消息
@@ -27,6 +29,16 @@ public class RabbitBrokerImpl implements RabbitBroker {
     public RabbitBrokerImpl(RabbitTemplateContainer rabbitTemplateContainer, MessageStoreService messageStoreService) {
         this.rabbitTemplateContainer = rabbitTemplateContainer;
         this.messageStoreService = messageStoreService;
+    }
+
+    @Override
+    public void sendCallback(Message message, SendCallback sendCallback) {
+        message.setMessageType(MessageType.CONFIRM);
+        if (null != sendCallback){
+            sendCallbackMessage(message, sendCallback);
+        }else {
+            sendKernel(message);
+        }
     }
 
     @Override
@@ -99,6 +111,33 @@ public class RabbitBrokerImpl implements RabbitBroker {
             RabbitTemplate rabbitTemplate = rabbitTemplateContainer.getTemplate(message);
             rabbitTemplate.convertAndSend(topic, routingKey, message, correlationData);
             log.info("#RabbitBrokerImpl.sendKernel# send to rabbitmq messageId: {}", message.getMessageId());
+        });
+
+    }
+
+    private void sendCallbackMessage(Message message, SendCallback sendCallback) {
+        CallbackAsyncQueue.submit((Runnable) ()-> {
+            CorrelationData correlationData = new CorrelationData(String.format("%s#%s#%s"
+                    , message.getMessageId()
+                    , System.currentTimeMillis()
+                    , message.getMessageType()));
+            String topic = message.getTopic();
+            String routingKey = message.getRoutingKey();
+            RabbitTemplate rabbitTemplate = rabbitTemplateContainer.getTemplate(message);
+            rabbitTemplate.convertAndSend(topic, routingKey, message, correlationData);
+            log.info("#RabbitBrokerImpl.sendCallbackMessage# send to rabbitmq messageId: {}", message.getMessageId());
+
+            try {
+                if (correlationData.getFuture().get().isAck()){
+                    sendCallback.onSuccess();
+                }else {
+                    sendCallback.onFailure();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
         });
 
     }
