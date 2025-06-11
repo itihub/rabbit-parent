@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  rabbit-demo:
+    build:
+      context: ./rabbit-demo
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      SPRING_RABBITMQ_ADDRESSES: amqp://admin:admin@rabbitmq:5672/
+      SPRING_RABBITMQ_USERNAME: admin
+      SPRING_RABBITMQ_PASSWORD: admin
+      ELASTIC_JOB_ZOOKEEPER_SERVERLISTS: zookeeper:2181
+    depends_on:
+      - mysql
+      - zookeeper
+      - rabbitmq
+
+  rabbit-task-example:
+    build:
+      context: ./rabbit-task-example
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_RABBITMQ_ADDRESSES: amqp://admin:admin@rabbitmq:5672/
+      SPRING_RABBITMQ_USERNAME: admin
+      SPRING_RABBITMQ_PASSWORD: admin
+      ELASTIC_JOB_ZOOKEEPER_SERVERLISTS: zookeeper:2181
+    depends_on:
+      - zookeeper
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: elastic_job
+
+  zookeeper:
+    image: zookeeper:3.8
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
